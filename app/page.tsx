@@ -1,5 +1,6 @@
 
 import Header from '@/components/Header';
+import RIghtbar from '@/components/RIghtbar';
 import Sidebar from '@/components/Sidebar';
 import { createClient } from '@supabase/supabase-js'
 
@@ -21,9 +22,10 @@ export default async function Home() {
 
     // console.log(data);
     return (
-        <div className='flex'>
+        <div className='flex realtive h-full w-full fixed'>
             <Sidebar />
             <Header />
+            <RIghtbar />
         </div>
     )
 }

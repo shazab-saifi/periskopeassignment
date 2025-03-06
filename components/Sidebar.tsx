@@ -6,11 +6,11 @@ import { IoGitNetworkOutline } from "react-icons/io5";
 import { BsFillChatDotsFill } from "react-icons/bs";
 import { BiSolidCoupon } from "react-icons/bi";
 import { FaChartLine } from "react-icons/fa";
-import { LuMenu } from "react-icons/lu";
 import { HiMiniSpeakerWave } from "react-icons/hi2";
 import { AiFillProfile } from "react-icons/ai";
-import { TfiGallery } from "react-icons/tfi";
+import { RiFolderImageFill } from "react-icons/ri";
 import { MdOutlineChecklist } from "react-icons/md";
+import { TfiMenuAlt } from "react-icons/tfi";
 import { TbSettingsFilled, TbStarsFilled, TbLayoutSidebarLeftExpandFilled } from "react-icons/tb";
 
 const Sidebar = () => {
@@ -19,18 +19,18 @@ const Sidebar = () => {
     { icon: BsFillChatDotsFill, fixedColor: "#0C8F4E" },
     { icon: BiSolidCoupon, extraClass: "rotate-[135deg]" },
     { icon: FaChartLine },
-    { icon: LuMenu },
+    { icon: TfiMenuAlt },
     { icon: HiMiniSpeakerWave },
     { icon: IoGitNetworkOutline, extraClass: "rotate-180" },
     { icon: AiFillProfile },
-    { icon: TfiGallery },
+    { icon: RiFolderImageFill },
     { icon: MdOutlineChecklist },
     { icon: TbSettingsFilled }
   ];
 
   return (
     <aside className="p-4 w-fit h-screen flex flex-col items-center justify-between border-r border-slate-200">
-      <div className="flex flex-col items-center space-y-7">
+      <div className="flex flex-col items-center space-y-8">
         <Image
           src={periskope}
           alt="profile"
@@ -38,7 +38,7 @@ const Sidebar = () => {
           height={32}
           className="rounded-full"
         />
-        <div className="space-y-5">
+        <div className="space-y-6">
           {menuIcons.map(({ icon: Icon, fixedColor, extraClass }, index) => (
             <Icon
               key={index}
