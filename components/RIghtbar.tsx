@@ -24,7 +24,7 @@ const RIghtbar = () => {
     ];
 
     return (
-        <div className=" p-4 h-full absolute top-[61px] right-0 border-l border-slate-200">
+        <div className=" p-4 border-l border-slate-200">
             <div className="space-y-7 mt-12">
                 {icons.map(({ icon: Icon }, index) => (
                     <Icon

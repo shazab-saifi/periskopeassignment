@@ -34,8 +34,7 @@ const Sidebar = () => {
         <Image
           src={periskope}
           alt="profile"
-          width={32}
-          height={32}
+          width={42}
           className="rounded-full"
         />
         <div className="space-y-6">
