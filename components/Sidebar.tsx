@@ -27,9 +27,9 @@ const Sidebar = () => {
     { icon: MdOutlineChecklist },
     { icon: TbSettingsFilled }
   ];
-  
+
   return (
-    <aside className="p-4 h-screen flex flex-col items-center justify-between">
+    <aside className="p-4 w-fit h-screen flex flex-col items-center justify-between border-r border-slate-200">
       <div className="flex flex-col items-center space-y-7">
         <Image
           src={periskope}
@@ -42,9 +42,10 @@ const Sidebar = () => {
           {menuIcons.map(({ icon: Icon, fixedColor, extraClass }, index) => (
             <Icon
               key={index}
-              className={`cursor-pointer transition-colors duration-200 ${fixedColor ? "" : "hover:text-[#0C8F4E]"
+              className={`cursor-pointer transition-colors duration-200 ${fixedColor ? "" : "hover:text-[#0C8F4E] text-[#5D6876]"
                 } ${extraClass || ""}`}
               size={24}
+              style={{ color: fixedColor }}
             />
           ))}
         </div>

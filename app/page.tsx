@@ -1,4 +1,5 @@
 
+import Header from '@/components/Header';
 import Sidebar from '@/components/Sidebar';
 import { createClient } from '@supabase/supabase-js'
 
@@ -20,8 +21,9 @@ export default async function Home() {
 
     // console.log(data);
     return (
-        <>
+        <div className='flex'>
             <Sidebar />
-        </>
+            <Header />
+        </div>
     )
 }
