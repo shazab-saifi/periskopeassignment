@@ -4,10 +4,10 @@ import RoomsSection from '@/components/RoomsSection';
 import Sidebar from '@/components/Sidebar';
 import { createClient } from '@supabase/supabase-js'
 
-const supabaseUrl = 'https://qqlczkkvefrukkikqsaw.supabase.co';
-// console.log(process.env.SUPABASE_KEY)
-const supabaseKey = process.env.SUPABASE_KEY!
-const supabase = createClient(supabaseUrl, supabaseKey)
+// const supabaseUrl = 'https://qqlczkkvefrukkikqsaw.supabase.co';
+// // console.log(process.env.SUPABASE_KEY)
+// const supabaseKey = process.env.SUPABASE_KEY!
+// const supabase = createClient(supabaseUrl, supabaseKey)
 
 export default async function Home() {
     // const { data, error } = await supabase
@@ -22,7 +22,7 @@ export default async function Home() {
 
     // console.log(data);
     return (
-        <div className='flex h-full w-full fixed'>
+        <div className='flex max-h-screen w-full fixed'>
             <Sidebar />
             <div className='w-full'>
                 <Header />
