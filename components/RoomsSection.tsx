@@ -13,7 +13,7 @@ import { createClient } from "@supabase/supabase-js";
 
 export const RoomCard = ({ roomName }: { roomName: string }) => {
     return (
-        <div className="w-[27.76rem] p-4 flex space-x-3.5 font-bold text-lg">
+        <div className="w-[27.76rem] p-4 flex space-x-3.5 font-bold text-lg active:bg-gray-100 cursor-pointer">
             <div className="rounded-full bg-[#DADDE2] p-4 w-14 h-14 flex items-center">
                 <FaUserGroup size={22} color="white" />
             </div>

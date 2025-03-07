@@ -1,6 +1,5 @@
 import Image from "next/image";
 import periskope from '@/public/periskope.png';
-
 import { IoMdHome } from "react-icons/io";
 import { IoGitNetworkOutline } from "react-icons/io5";
 import { BsFillChatDotsFill } from "react-icons/bs";

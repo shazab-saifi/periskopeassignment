@@ -24,3 +24,12 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 } */
+
+.bg-chat {
+  background-color: #f3f4f6; /* Tailwind gray-100 */
+  background-image:  
+    radial-gradient(circle, rgba(0, 0, 0, 0.07) 2px, transparent 2px),
+    radial-gradient(circle, rgba(0, 0, 0, 0.07) 2px, transparent 2px);
+  background-size: 35px 35px; /* Increased pattern size */
+  background-position: 0 0, 17px 17px;
+}

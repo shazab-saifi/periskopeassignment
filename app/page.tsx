@@ -1,3 +1,4 @@
+import ChatSection from '@/components/ChatSection';
 import Header from '@/components/Header';
 import RIghtbar from '@/components/RIghtbar';
 import RoomsSection from '@/components/RoomsSection';
@@ -26,8 +27,9 @@ export default async function Home() {
             <Sidebar />
             <div className='w-full'>
                 <Header />
-                <div className='flex h-full w-full '>
+                <div className='flex h-full w-full justify-between'>
                     <RoomsSection />
+                    <ChatSection />
                     <RIghtbar />
                 </div>
             </div>
