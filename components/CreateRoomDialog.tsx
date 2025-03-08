@@ -1,6 +1,6 @@
 "use client"
 
-import { insertRoom } from "@/lib/insertData";
+import { insertRoom } from "@/lib/mutation";
 import { useState, useRef, useEffect } from "react";
 import { TbMessageCirclePlus } from "react-icons/tb";
 

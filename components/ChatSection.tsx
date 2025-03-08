@@ -6,12 +6,14 @@ import { FaUserGroup } from "react-icons/fa6";
 import { IoSparklesSharp, IoSend } from "react-icons/io5";
 import Avatars from "@/public/Frame 26.svg";
 import periskope from "@/public/periskope.png";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { FiSmile, FiPaperclip } from "react-icons/fi";
 import { GoClock } from "react-icons/go";
 import { PiClockClockwiseFill } from "react-icons/pi";
 import { HiOutlineSparkles } from "react-icons/hi";
 import { RiFileList2Fill, RiExpandUpDownLine } from "react-icons/ri";
+import { insertChat } from "@/lib/mutation";
+import ChatContext from "./ChatContext";
 
 const ChatSection = () => {
     const [message, setMessage] = useState("");
@@ -24,7 +26,25 @@ const ChatSection = () => {
         { icon: HiOutlineSparkles },
         { icon: RiFileList2Fill },
         { icon: FaMicrophone }
-    ]
+    ];
+
+    const handlClick = () => {
+        const error = insertChat(message);
+        if (error) {
+            console.error(error);
+        }
+        setMessage("");
+    }
+
+    const MessageCard = ({ msg }: { msg: string }) => {
+        return (
+            <div className="w-fit bg-white py-2 px-4 rounded-md shadow-sm">
+                {msg}
+            </div>
+        )
+    }
+
+    const { chats } = useContext(ChatContext);
 
     return (
         <div className="flex flex-col flex-grow">
@@ -61,6 +81,14 @@ const ChatSection = () => {
                 </div>
             </div>
             <div className="relative bg-chat flex flex-grow">
+                <div className="p-4 flex flex-grow flex-col space-y-2">
+                    {chats.map((chat, index) => (
+                        <MessageCard
+                            key={index}
+                            msg={chat.chat}
+                        />
+                    ))}
+                </div>
                 <div className="absolute bottom-15.5 flex flex-col bg-white h-fit p-4 w-full space-y-4">
                     <div className="flex items-center space-x-2">
                         <input
@@ -74,6 +102,7 @@ const ChatSection = () => {
                             size={24}
                             color="#0C8F4E"
                             className="cursor-pointer"
+                            onClick={handlClick}
                         />
                     </div>
                     <div className="flex justify-between">
