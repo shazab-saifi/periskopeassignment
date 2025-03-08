@@ -17,7 +17,7 @@ import ChatContext from "./ChatContext";
 
 const ChatSection = () => {
     const [message, setMessage] = useState("");
-    const { chats, roomIdRefContext } = useContext(ChatContext);
+    const { chats, roomIdContext } = useContext(ChatContext);
 
     const icons = [
         { icon: FiPaperclip },
@@ -30,7 +30,7 @@ const ChatSection = () => {
     ];
 
     const handlClick = async () => {
-        const error = await insertChat(message, roomIdRefContext.current);
+        const error = await insertChat(message, roomIdContext);
         if (error) {
             console.error(error);
         }

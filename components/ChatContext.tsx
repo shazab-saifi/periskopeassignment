@@ -2,28 +2,30 @@
 
 import React, { createContext, Dispatch, RefObject, SetStateAction, useRef, useState } from "react";
 
-interface ChatMessage {
+export interface ChatMessage {
     chat: string;
 }
 
 interface ChatContextType {
     chats: ChatMessage[];
     setChats: Dispatch<SetStateAction<ChatMessage[]>>;
-    roomIdRefContext: RefObject<number>;
+    roomIdContext: number;
+    setRoomIdContext: Dispatch<SetStateAction<number>>
 }
 
 const ChatContext = createContext<ChatContextType>({
     chats: [],
     setChats: () => {},
-    roomIdRefContext: { current: 0 },
+    roomIdContext: 0,
+    setRoomIdContext: () => {}
 });
 
 export const ChatProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const [chats, setChats] = useState<ChatMessage[]>([]);
-    const roomIdRefContext = useRef<number>(0);
+    const [roomIdContext, setRoomIdContext] = useState<number>(0);
 
     return (
-        <ChatContext.Provider value={{ chats, setChats, roomIdRefContext }}>
+        <ChatContext.Provider value={{ chats, setChats, roomIdContext, setRoomIdContext }}>
             {children}
         </ChatContext.Provider>
     );

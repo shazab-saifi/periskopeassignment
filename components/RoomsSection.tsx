@@ -61,7 +61,7 @@ interface RoomsType {
 const RoomsSection = () => {
     const [rooms, setRooms] = useState<RoomsType[]>([]);
     const [messages, setMessage] = useState<SetStateAction<ChatMessage[]>>([]);
-    const { setChats, roomIdRefContext } = useContext(ChatContext);
+    const { setChats, roomIdContext, setRoomIdContext } = useContext(ChatContext);
 
     useEffect(() => {
         setChats(messages);
@@ -99,7 +99,7 @@ const RoomsSection = () => {
 
     useEffect(() => {
         const fetchChats = async () => {
-            const { data, error } = await supabase.from("chats").select("chat").eq("roomId", roomIdRefContext.current);
+            const { data, error } = await supabase.from("chats").select("chat").eq("roomId", roomIdContext);
             if (error) {
                 console.log(error)
             }
@@ -122,11 +122,11 @@ const RoomsSection = () => {
         return () => {
             supabase.removeChannel(subscription);
         };
-    }, [roomIdRefContext.current]);
+    }, [roomIdContext]);
 
     const handleOnClick = async (roomId: number) => {
-        if (!roomId || roomIdRefContext.current === null) return;
-        roomIdRefContext.current = roomId
+        if (!roomId) return;
+        setRoomIdContext(roomId);
         const data = await fetchChats(roomId);
         setMessage(data!);
     }
