@@ -17,7 +17,7 @@ import ChatContext from "./ChatContext";
 
 const ChatSection = () => {
     const [message, setMessage] = useState("");
-    const { chats, roomIdContext } = useContext(ChatContext);
+    const { chats, roomIdContext, roomNameContext } = useContext(ChatContext);
 
     const icons = [
         { icon: FiPaperclip },
@@ -56,7 +56,7 @@ const ChatSection = () => {
                         />
                     </div>
                     <div className="flex flex-col text-lg font-bold">
-                        <span>Room 1</span>
+                        <span>{roomNameContext}</span>
                         <span className="text-[#7f8ea1]">
                             <span>Rohan, Vishal, Umar, Sam, Rakesh, Shahrukh</span>
                         </span>

@@ -61,7 +61,7 @@ interface RoomsType {
 const RoomsSection = () => {
     const [rooms, setRooms] = useState<RoomsType[]>([]);
     const [messages, setMessage] = useState<SetStateAction<ChatMessage[]>>([]);
-    const { setChats, roomIdContext, setRoomIdContext } = useContext(ChatContext);
+    const { setChats, roomIdContext, setRoomIdContext, setRoomNameContext } = useContext(ChatContext);
 
     useEffect(() => {
         setChats(messages);
@@ -122,11 +122,12 @@ const RoomsSection = () => {
         };
     }, [roomIdContext]);
 
-    const handleOnClick = async (roomId: number) => {
+    const handleOnClick = async (roomId: number, roomName: string) => {
         if (!roomId) return;
         setRoomIdContext(roomId);
         const data = await fetchChats(roomId);
         setMessage(data!);
+        setRoomNameContext(roomName);
     }
 
     return (
@@ -158,7 +159,7 @@ const RoomsSection = () => {
                     <RoomCard
                         key={id}
                         roomName={room.name}
-                        onClick={() => handleOnClick(room.id)}
+                        onClick={() => handleOnClick(room.id, room.name)}
                     />
                 ))}
             </div>
