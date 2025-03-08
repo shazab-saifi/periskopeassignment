@@ -8,7 +8,7 @@ import { FaPhoneAlt } from "react-icons/fa";
 import periskope from "@/public/periskope.png";
 import Image from "next/image";
 import CreateRoomDialog from "./CreateRoomDialog";
-import { MouseEventHandler, useContext, useEffect, useRef, useState } from "react";
+import { MouseEventHandler, useContext, useEffect, useState } from "react";
 import { fetchChats } from "@/lib/mutation";
 import ChatContext from "./ChatContext";
 import supabase from "@/lib/supabaseClient";

@@ -13,7 +13,7 @@ export default async function Home() {
                 <Sidebar />
                 <div className='w-full'>
                     <Header />
-                    <div className='flex h-full w-full justify-between'>
+                    <div className='flex max-h-screen w-full justify-between'>
                         <RoomsSection />
                         <ChatSection />
                         <RIghtbar />

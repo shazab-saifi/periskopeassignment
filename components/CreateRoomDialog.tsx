@@ -79,7 +79,7 @@ export default function CustomDialog() {
         <div className="font-sans">
             <button
                 onClick={openDialog}
-                className="absolute bottom-18 right-6 rounded-full bg-[#0C8F4E] p-4 text-sm font-medium text-white transition-colors hover:bg-[#438d68] cursor-pointer"
+                className="absolute bottom-4 right-6 rounded-full bg-[#0C8F4E] p-4 text-sm font-medium text-white transition-colors hover:bg-[#438d68] cursor-pointer"
                 type="button"
             >
                 <TbMessageCirclePlus size={24} />

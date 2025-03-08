@@ -18,8 +18,6 @@ import ChatContext from "./ChatContext";
 const ChatSection = () => {
     const [message, setMessage] = useState("");
     const { chats, roomIdRefContext } = useContext(ChatContext);
-    console.log(chats.map((chat) => console.log(chat.chat)));
-    console.log(roomIdRefContext.current)
 
     const icons = [
         { icon: FiPaperclip },
@@ -31,8 +29,8 @@ const ChatSection = () => {
         { icon: FaMicrophone }
     ];
 
-    const handlClick = () => {
-        const error = insertChat(message, roomIdRefContext.current);
+    const handlClick = async () => {
+        const error = await insertChat(message, roomIdRefContext.current);
         if (error) {
             console.error(error);
         }
@@ -70,7 +68,7 @@ const ChatSection = () => {
                         alt="avatars"
                         width={150}
                         height={38}
-                        style={{width: "auto", height: "auto"}}
+                        style={{ width: "auto", height: "auto" }}
                     />
                     <IoSparklesSharp
                         size={18}
@@ -82,8 +80,8 @@ const ChatSection = () => {
                     />
                 </div>
             </div>
-            <div className="relative bg-chat flex flex-grow">
-                <div className="p-4 flex flex-grow flex-col space-y-2">
+            <div className="bg-chat">
+                <div className="p-4 flex flex-grow flex-col space-y-2 overflow-y-auto h-[630px]">
                     {chats.map((chat, index) => (
                         <MessageCard
                             key={index}
@@ -91,47 +89,47 @@ const ChatSection = () => {
                         />
                     ))}
                 </div>
-                <div className="absolute bottom-15.5 flex flex-col bg-white h-fit p-4 w-full space-y-4">
-                    <div className="flex items-center space-x-2">
-                        <input
-                            type="text"
-                            placeholder="Messages..."
-                            value={message}
-                            onChange={(e) => setMessage(e.target.value)}
-                            className="flex flex-grow p-2 outline-none"
-                        />
-                        <IoSend
-                            size={24}
-                            color="#0C8F4E"
-                            className="cursor-pointer"
-                            onClick={handlClick}
-                        />
-                    </div>
-                    <div className="flex justify-between">
-                        <div className="flex items-center space-x-6">
-                            {icons.map(({ icon: Icon }, index) => (
-                                <Icon
-                                    key={index}
-                                    size={20}
-                                    color="#5D6876"
-                                />
-                            ))}
-                        </div>
-                        <div className="w-fit flex items-center space-x-2 p-2 rounded-sm shadow-sm">
-                            <Image
-                                src={periskope}
-                                alt="periskope"
-                                width={18}
-                                height={18}
-                                className="rounded-full"
-                            />
-                            <span>Periskope</span>
-                            <RiExpandUpDownLine
-                                size={18}
+            </div>
+            <div className="bottom-15.5 flex flex-col bg-white h-fit p-4 w-full space-y-4 z-10">
+                <div className="flex items-center space-x-2">
+                    <input
+                        type="text"
+                        placeholder="Messages..."
+                        value={message}
+                        onChange={(e) => setMessage(e.target.value)}
+                        className="flex flex-grow p-2 outline-none"
+                    />
+                    <IoSend
+                        size={24}
+                        color="#0C8F4E"
+                        className="cursor-pointer"
+                        onClick={handlClick}
+                    />
+                </div>
+                <div className="flex justify-between">
+                    <div className="flex items-center space-x-6">
+                        {icons.map(({ icon: Icon }, index) => (
+                            <Icon
+                                key={index}
+                                size={20}
                                 color="#5D6876"
-                                className="ml-16"
                             />
-                        </div>
+                        ))}
+                    </div>
+                    <div className="w-fit flex items-center space-x-2 p-2 rounded-sm shadow-sm">
+                        <Image
+                            src={periskope}
+                            alt="periskope"
+                            width={18}
+                            height={18}
+                            className="rounded-full"
+                        />
+                        <span>Periskope</span>
+                        <RiExpandUpDownLine
+                            size={18}
+                            color="#5D6876"
+                            className="ml-16"
+                        />
                     </div>
                 </div>
             </div>
