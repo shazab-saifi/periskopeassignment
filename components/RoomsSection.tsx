@@ -85,8 +85,7 @@ const RoomsSection = () => {
             .on(
                 "postgres_changes",
                 { event: "*", schema: "public", table: "rooms" },
-                (payload) => {
-                    console.log("Change detected in:", payload);
+                () => {
                     fetchRooms();
                 }
             )
@@ -113,8 +112,7 @@ const RoomsSection = () => {
             .on(
                 "postgres_changes",
                 { event: "*", schema: "public", table: "chats" },
-                (payload) => {
-                    console.log("Change detected in chats: ", payload);
+                () => {
                     fetchChats();
                 }
             ).subscribe()
