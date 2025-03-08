@@ -8,9 +8,9 @@ import { FaPhoneAlt } from "react-icons/fa";
 import periskope from "@/public/periskope.png";
 import Image from "next/image";
 import CreateRoomDialog from "./CreateRoomDialog";
-import { MouseEventHandler, useContext, useEffect, useState } from "react";
+import { MouseEventHandler, SetStateAction, useContext, useEffect, useState } from "react";
 import { fetchChats } from "@/lib/mutation";
-import ChatContext from "./ChatContext";
+import ChatContext, { ChatMessage } from "./ChatContext";
 import supabase from "@/lib/supabaseClient";
 
 export const RoomCard = ({
@@ -60,7 +60,7 @@ interface RoomsType {
 
 const RoomsSection = () => {
     const [rooms, setRooms] = useState<RoomsType[]>([]);
-    const [messages, setMessage] = useState([]);
+    const [messages, setMessage] = useState<SetStateAction<ChatMessage[]>>([]);
     const { setChats, roomIdRefContext } = useContext(ChatContext);
 
     useEffect(() => {
@@ -104,7 +104,7 @@ const RoomsSection = () => {
                 console.log(error)
             }
             if (data) {
-                setMessage(data as any);
+                setMessage(data);
             }
         }
 
@@ -119,7 +119,6 @@ const RoomsSection = () => {
                 }
             ).subscribe()
 
-
         return () => {
             supabase.removeChannel(subscription);
         };
@@ -129,7 +128,7 @@ const RoomsSection = () => {
         if (!roomId || roomIdRefContext.current === null) return;
         roomIdRefContext.current = roomId
         const data = await fetchChats(roomId);
-        setMessage(data as any);
+        setMessage(data!);
     }
 
     return (
