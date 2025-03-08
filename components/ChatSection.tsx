@@ -17,6 +17,9 @@ import ChatContext from "./ChatContext";
 
 const ChatSection = () => {
     const [message, setMessage] = useState("");
+    const { chats, roomIdRefContext } = useContext(ChatContext);
+    console.log(chats.map((chat) => console.log(chat.chat)));
+    console.log(roomIdRefContext.current)
 
     const icons = [
         { icon: FiPaperclip },
@@ -29,7 +32,7 @@ const ChatSection = () => {
     ];
 
     const handlClick = () => {
-        const error = insertChat(message);
+        const error = insertChat(message, roomIdRefContext.current);
         if (error) {
             console.error(error);
         }
@@ -43,8 +46,6 @@ const ChatSection = () => {
             </div>
         )
     }
-
-    const { chats } = useContext(ChatContext);
 
     return (
         <div className="flex flex-col flex-grow">
@@ -69,6 +70,7 @@ const ChatSection = () => {
                         alt="avatars"
                         width={150}
                         height={38}
+                        style={{width: "auto", height: "auto"}}
                     />
                     <IoSparklesSharp
                         size={18}

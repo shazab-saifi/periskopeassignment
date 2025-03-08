@@ -1,22 +1,29 @@
-"use client"
+"use client";
 
-import React, { createContext, Dispatch, SetStateAction, useState } from 'react';
+import React, { createContext, Dispatch, RefObject, SetStateAction, useRef, useState } from "react";
+
+interface ChatMessage {
+    chat: string;
+}
 
 interface ChatContextType {
-    chats: any[];
-    setChats: Dispatch<SetStateAction<any[]>>;
+    chats: ChatMessage[];
+    setChats: Dispatch<SetStateAction<ChatMessage[]>>;
+    roomIdRefContext: RefObject<number>;
 }
 
 const ChatContext = createContext<ChatContextType>({
     chats: [],
-    setChats: () => {}
+    setChats: () => {},
+    roomIdRefContext: { current: 0 },
 });
 
-export const ChatProvider = ({ children }: {children: React.ReactNode}) => {
-    const [chats, setChats] = useState<any[]>([]);
+export const ChatProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+    const [chats, setChats] = useState<ChatMessage[]>([]);
+    const roomIdRefContext = useRef<number>(0);
 
     return (
-        <ChatContext.Provider value={{ chats, setChats }}>
+        <ChatContext.Provider value={{ chats, setChats, roomIdRefContext }}>
             {children}
         </ChatContext.Provider>
     );

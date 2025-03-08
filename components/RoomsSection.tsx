@@ -9,9 +9,9 @@ import periskope from "@/public/periskope.png";
 import Image from "next/image";
 import CreateRoomDialog from "./CreateRoomDialog";
 import { MouseEventHandler, useContext, useEffect, useRef, useState } from "react";
-import { createClient } from "@supabase/supabase-js";
 import { fetchChats } from "@/lib/mutation";
 import ChatContext from "./ChatContext";
+import supabase from "@/lib/supabaseClient";
 
 export const RoomCard = ({
     roomName,
@@ -61,13 +61,11 @@ interface RoomsType {
 const RoomsSection = () => {
     const [rooms, setRooms] = useState<RoomsType[]>([]);
     const [messages, setMessage] = useState([]);
-    const roomIdRef = useRef(0);
-    const { setChats } = useContext(ChatContext);
-    setChats(messages as any[]);
+    const { setChats, roomIdRefContext } = useContext(ChatContext);
 
-    const supabaseUrl = 'https://qqlczkkvefrukkikqsaw.supabase.co';
-    const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_KEY!
-    const supabase = createClient(supabaseUrl, supabaseKey)
+    useEffect(() => {
+        setChats(messages);
+    }, [messages, setChats]);
 
     useEffect(() => {
         const fetchRooms = async () => {
@@ -88,7 +86,7 @@ const RoomsSection = () => {
                 "postgres_changes",
                 { event: "*", schema: "public", table: "rooms" },
                 (payload) => {
-                    console.log("Change detected:", payload);
+                    console.log("Change detected in:", payload);
                     fetchRooms();
                 }
             )
@@ -99,16 +97,9 @@ const RoomsSection = () => {
         };
     }, []);
 
-    const handleOnClick = async (roomId: number) => {
-        if (!roomId || roomIdRef.current === null) return;
-        roomIdRef.current = roomId;
-        const data = await fetchChats(roomId);
-        setMessage(data as any);
-    }
-
     useEffect(() => {
         const fetchChats = async () => {
-            const { data, error } = await supabase.from("chats").select("chat").eq("roomId", roomIdRef.current);
+            const { data, error } = await supabase.from("chats").select("chat").eq("roomId", roomIdRefContext.current);
             if (error) {
                 console.log(error)
             }
@@ -123,7 +114,7 @@ const RoomsSection = () => {
                 "postgres_changes",
                 { event: "*", schema: "public", table: "chats" },
                 (payload) => {
-                    console.log("Change detected: ", payload);
+                    console.log("Change detected in chats: ", payload);
                     fetchChats();
                 }
             ).subscribe()
@@ -132,7 +123,14 @@ const RoomsSection = () => {
         return () => {
             supabase.removeChannel(subscription);
         };
-    });
+    }, [roomIdRefContext.current]);
+
+    const handleOnClick = async (roomId: number) => {
+        if (!roomId || roomIdRefContext.current === null) return;
+        roomIdRefContext.current = roomId
+        const data = await fetchChats(roomId);
+        setMessage(data as any);
+    }
 
     return (
         <div className="relative flex flex-col max-h-screen overflow-y-hidden">
