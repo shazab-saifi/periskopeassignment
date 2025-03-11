@@ -112,7 +112,7 @@ export default function CustomDialog() {
                                 value={inputValue}
                                 onChange={(e) => setInputValue(e.target.value)}
                                 className="w-full rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-400 focus:border-[#0C8F4E] focus:outline-none focus:ring-1 focus:ring-[#0C8F4E]"
-                                placeholder="Enter your name"
+                                placeholder="Enter your room name"
                             />
                         </div>
                         {submitted && inputValue.trim() && (

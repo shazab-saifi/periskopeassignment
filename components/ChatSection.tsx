@@ -30,6 +30,10 @@ const ChatSection = () => {
     ];
 
     const handlClick = async () => {
+        if(!message) {
+            alert("Please write your message in the input box");
+            return;
+        }
         const error = await insertChat(message, roomIdContext);
         if (error) {
             console.error(error);

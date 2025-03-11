@@ -8,10 +8,11 @@ import { FaPhoneAlt } from "react-icons/fa";
 import periskope from "@/public/periskope.png";
 import Image from "next/image";
 import CreateRoomDialog from "./CreateRoomDialog";
-import { MouseEventHandler, SetStateAction, useContext, useEffect, useState } from "react";
+import { MouseEventHandler, useContext, useEffect, useState } from "react";
 import { fetchChats } from "@/lib/mutation";
 import ChatContext, { ChatMessage } from "./ChatContext";
 import supabase from "@/lib/supabaseClient";
+import SearchInput from "./SearchInput";
 
 export const RoomCard = ({
     roomName,
@@ -60,8 +61,9 @@ interface RoomsType {
 
 const RoomsSection = () => {
     const [rooms, setRooms] = useState<RoomsType[]>([]);
-    const [messages, setMessage] = useState<SetStateAction<ChatMessage[]>>([]);
-    const { setChats, roomIdContext, setRoomIdContext, setRoomNameContext } = useContext(ChatContext);
+    const [messages, setMessage] = useState<ChatMessage[]>([]);
+    const { setChats, roomIdContext, setRoomIdContext, setRoomNameContext, searchValue } = useContext(ChatContext);
+    const [searchRoom, setSearchRoom] = useState<boolean>(false);
 
     useEffect(() => {
         setChats(messages);
@@ -107,13 +109,15 @@ const RoomsSection = () => {
             }
         }
 
+        fetchChats();
+
         const subscription = supabase
             .channel("realtime:chats")
             .on(
                 "postgres_changes",
                 { event: "*", schema: "public", table: "chats" },
                 () => {
-                    fetchChats();
+                    getNewChat();
                 }
             ).subscribe()
 
@@ -122,12 +126,35 @@ const RoomsSection = () => {
         };
     }, [roomIdContext]);
 
+    const getNewChat = async () => {
+        const { data, error } = await supabase.from("chats").select("chat").order("id", { ascending: false }).limit(1).single()
+        if (error) {
+            console.error(error);
+        }
+        if (data) {
+            setMessage(prevMsgs => [...prevMsgs, { chat: data.chat }]);
+        }
+    }
+
     const handleOnClick = async (roomId: number, roomName: string) => {
         if (!roomId) return;
         setRoomIdContext(roomId);
         const data = await fetchChats(roomId);
         setMessage(data!);
         setRoomNameContext(roomName);
+    }
+
+    const handleSearch = () => {
+        const searchedRoom = rooms.filter((room) => {
+            if (room.name.toLowerCase() === searchValue.toLowerCase()) {
+                return room;
+            } else {
+                // alert("Room with this name doesn't exits!")
+                return;
+            }
+        });
+        console.log(searchedRoom);
+        setRooms(searchedRoom);
     }
 
     return (
@@ -143,10 +170,13 @@ const RoomsSection = () => {
                         <button className="px-2 py-1 shadow-sm rounded-sm text-[#5D6876]">Save</button>
                     </div>
                     <div className="flex items-center space-x-2">
-                        <button className="px-2 py-1 shadow-sm rounded-sm text-[#5D6876] flex items-center space-x-2">
+                        <button
+                            onClick={() => setSearchRoom(prev => !prev)}
+                            className="px-2 py-1 shadow-sm rounded-sm text-[#5D6876] flex items-center space-x-2 cursor-pointer">
                             <FaSearch size={12} />
                             <span>Search</span>
                         </button>
+                        {searchRoom && <SearchInput handleSearchfn={handleSearch} />}
                         <button className="px-2 py-1 shadow-sm rounded-sm text-[#0C8F4E] flex items-center space-x-2">
                             <IoFilterSharp size={12} />
                             <span>Filtered</span>
