@@ -42,7 +42,6 @@ const ChatSection = () => {
     }
 
     useEffect(() => {
-        console.log(message)
         const onEnterKey = (e: KeyboardEvent) => {
             if (e.key === "Enter") {
                 if (!message.trim()) {
