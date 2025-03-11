@@ -6,7 +6,7 @@ import { FaUserGroup } from "react-icons/fa6";
 import { IoSparklesSharp, IoSend } from "react-icons/io5";
 import Avatars from "@/public/Frame 26.svg";
 import periskope from "@/public/periskope.png";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { FiSmile, FiPaperclip } from "react-icons/fi";
 import { GoClock } from "react-icons/go";
 import { PiClockClockwiseFill } from "react-icons/pi";
@@ -29,7 +29,7 @@ const ChatSection = () => {
         { icon: FaMicrophone }
     ];
 
-    const handlClick = async () => {
+    const handleClick = async () => {
         if(!message) {
             alert("Please write your message in the input box");
             return;
@@ -40,6 +40,25 @@ const ChatSection = () => {
         }
         setMessage("");
     }
+
+    useEffect(() => {
+        console.log(message)
+        const onEnterKey = (e: KeyboardEvent) => {
+            if (e.key === "Enter") {
+                if (!message.trim()) {
+                    alert("Please write your message in the input box");
+                    return;
+                }
+                handleClick();
+            }
+        }
+
+        document.addEventListener("keydown", onEnterKey);
+
+        return () => {
+            document.removeEventListener("keydown", onEnterKey)
+        }
+    }, [message]);
 
     const MessageCard = ({ msg }: { msg: string }) => {
         return (
@@ -107,7 +126,7 @@ const ChatSection = () => {
                         size={24}
                         color="#0C8F4E"
                         className="cursor-pointer"
-                        onClick={handlClick}
+                        onClick={handleClick}
                     />
                 </div>
                 <div className="flex justify-between">
