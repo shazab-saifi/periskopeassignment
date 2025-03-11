@@ -6,7 +6,7 @@ import { FaUserGroup } from "react-icons/fa6";
 import { IoSparklesSharp, IoSend } from "react-icons/io5";
 import Avatars from "@/public/Frame 26.svg";
 import periskope from "@/public/periskope.png";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { FiSmile, FiPaperclip } from "react-icons/fi";
 import { GoClock } from "react-icons/go";
 import { PiClockClockwiseFill } from "react-icons/pi";
@@ -17,6 +17,7 @@ import ChatContext from "./ChatContext";
 
 const ChatSection = () => {
     const [message, setMessage] = useState("");
+    const chatContainerRef = useRef<HTMLDivElement>(null);
     const { chats, roomIdContext, roomNameContext } = useContext(ChatContext);
 
     const icons = [
@@ -58,6 +59,12 @@ const ChatSection = () => {
             document.removeEventListener("keydown", onEnterKey)
         }
     }, [message]);
+
+    useEffect(() => {
+        if (chatContainerRef.current) {
+            chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+        }
+    }, [chats]);
 
     const MessageCard = ({ msg }: { msg: string }) => {
         return (
@@ -103,7 +110,9 @@ const ChatSection = () => {
                 </div>
             </div>
             <div className="bg-chat">
-                <div className="p-4 flex flex-grow flex-col space-y-2 overflow-y-auto h-[630px]">
+                <div
+                ref={chatContainerRef}
+                className="p-4 flex flex-grow flex-col space-y-2 overflow-y-auto h-[630px]">
                     {chats.map((chat, index) => (
                         <MessageCard
                             key={index}
